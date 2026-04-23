@@ -17,30 +17,41 @@ from fastapi import Query
 from fastapi.responses import HTMLResponse
 
 # ══════════════════════════════════════════════════════════════════════════════
-#  CONFIGURACIÓN
+#  CONFIGURACIÓN - LEE DESDE VARIABLES DE ENTORNO (RENDER)
 # ══════════════════════════════════════════════════════════════════════════════
-with open('config.json', 'r') as f:
-    config = json.load(f)
 
-token    = config.get('token')
-secret   = config.get('secret')
-app_id   = config.get('id')
-redirect = config.get('redirect')
-api      = config.get('api_endpoint')
-logs     = config.get('logs')
+# Intenta cargar config.json si existe (para desarrollo local)
+config = {}
+try:
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+except:
+    pass
+
+# Lee del entorno (RENDER) primero, luego del config.json como fallback
+token    = os.getenv('DISCORD_TOKEN') or config.get('token')
+secret   = os.getenv('CLIENT_SECRET') or config.get('secret')
+app_id   = os.getenv('CLIENT_ID') or config.get('id')
+redirect = os.getenv('REDIRECT_URI') or config.get('redirect')
+api      = os.getenv('API_ENDPOINT') or config.get('api_endpoint') or "https://discord.com/api/v10"
+logs     = os.getenv('WEBHOOK_LOGS', '[]')
+if isinstance(logs, str):
+    try:
+        logs = json.loads(logs)
+    except:
+        logs = config.get('logs', [])
 
 BOT_NAME = "VaultBot"
 PREFIJO  = "!"
 
-# ── IDs de canales de tu servidor principal (rellena tras crear los canales) ──
-# Ponlos en config.json o directamente aquí:
-CANAL_INVITAR_BOT   = int(config.get('canal_invitar_bot',   0))   # #invitar-bot
-CANAL_VERIFICAR     = int(config.get('canal_verificar',     0))   # #verificarse
-CANAL_MIEMBROS      = int(config.get('canal_miembros',      0))   # #dar-miembros  (solo tú)
-CANAL_GENERAL       = int(config.get('canal_general',       0))   # canal de comandos generales
+# ── IDs de canales - Lee del entorno (RENDER) ──
+CANAL_INVITAR_BOT   = int(os.getenv('CANAL_INVITAR_BOT', config.get('canal_invitar_bot', 0)))
+CANAL_VERIFICAR     = int(os.getenv('CANAL_VERIFICAR', config.get('canal_verificar', 0)))
+CANAL_MIEMBROS      = int(os.getenv('CANAL_MIEMBROS', config.get('canal_miembros', 0)))
+CANAL_GENERAL       = int(os.getenv('CANAL_GENERAL', config.get('canal_general', 0)))
 
-# ID del dueño del bot (solo este puede usar !transferir y !setwebhook)
-OWNER_ID = int(config.get('owner_id', 0))
+# ID del dueño del bot
+OWNER_ID = int(os.getenv('OWNER_ID', config.get('owner_id', 0)))
 
 # Diccionario en memoria: guild_id -> webhook_url
 # Se carga desde webhooks.json al arrancar para persistir entre reinicios
