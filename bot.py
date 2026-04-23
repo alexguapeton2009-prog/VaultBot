@@ -1082,5 +1082,7 @@ async def on_command_error(ctx, error):
 #  ARRANQUE
 # ══════════════════════════════════════════════════════════════════════════════
 if __name__ == "__main__":
+    # Inicia FastAPI en background
     mantener_vivo()
+    # Luego el bot
     bot.run(token, reconnect=True)
