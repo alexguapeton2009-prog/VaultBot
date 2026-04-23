@@ -68,7 +68,6 @@ def guardar_webhooks(data):
         json.dump(data, f, indent=2)
 
 guild_webhooks: dict = cargar_webhooks()   # { "guild_id": "webhook_url" }
-
 # ══════════════════════════════════════════════════════════════════════════════
 #  FASTAPI + BOT
 # ══════════════════════════════════════════════════════════════════════════════
