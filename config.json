@@ -1,16 +1,16 @@
 {
-  "token": "TU_TOKEN_DE_BOT_AQUI",
-  "secret": "TU_CLIENT_SECRET_AQUI",
-  "id": "TU_CLIENT_ID_AQUI",
+  "token": "",
+  "secret": "",
+  "id": "",
   "redirect": "http://127.0.0.1:8000/callback",
   "api_endpoint": "https://discord.com/api/v10",
   "logs": [
-    "https://discord.com/api/webhooks/TU_WEBHOOK_1",
-    "https://discord.com/api/webhooks/TU_WEBHOOK_2"
+    "",
+    ""
   ],
-  "owner_id": "TU_ID_DE_DISCORD_AQUI",
-  "canal_invitar_bot": "ID_DEL_CANAL_INVITAR_BOT",
-  "canal_verificar": "ID_DEL_CANAL_VERIFICARSE",
-  "canal_miembros": "ID_DEL_CANAL_DAR_MIEMBROS",
-  "canal_general": "ID_DEL_CANAL_GENERAL"
+  "owner_id": "",
+  "canal_invitar_bot": "",
+  "canal_verificar": "",
+  "canal_miembros": "",
+  "canal_general": ""
 }
